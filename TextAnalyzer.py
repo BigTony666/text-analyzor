@@ -44,7 +44,7 @@ if __name__ == "__main__":
         lines = sc.textFile(args.input)
         lines.flatMap(lambda s: s.split(' '))\
             .map(lambda word: (stripNonAlpha(toLowerCase(word)), 1)) \
-            .filter(lambda word: word[0] != '')\
+            .filter(lambda (key, _): key != "") \
             .reduceByKey(lambda x, y: x + y)\
             .saveAsTextFile(args.output)
 
@@ -69,7 +69,7 @@ if __name__ == "__main__":
         lines = sc.textFile(args.input)
         topWords = lines.flatMap(lambda s: s.split(' '))\
             .map(lambda word: (stripNonAlpha(toLowerCase(word)), 1)) \
-            .filter(lambda word: word[0] != '')\
+            .filter(lambda (key, _): key != "") \
             .reduceByKey(lambda x, y: x + y)\
             .map(lambda x: (x[1], x[0]))\
             .top(20)
@@ -84,12 +84,30 @@ if __name__ == "__main__":
         # lowercase, and have non alphabetic characters removed
         # (i.e., 'Ba,Na:Na.123' and 'banana' count as the same term). Empty strings ""
         # are removed
-        pass
-
-
-
-
-
+        """
+            Line 1: SparkContext will call the wholeTextFiles() to read all files in a whole directory from the local system
+            Line 2: It will cache the files to reduce the load time
+            Line 3: It will count the number of documents in this corpus
+            Line 4: It will split the words by the blank space delimiter from all lines in all files and flat them;
+            Line 5: It will lowercase each word first, and then strip all non-alphabet character
+            Line 6: It will unique the elements
+            Line 7: It will create a tuple for each word in this format, (word, 1);
+            Line 8: It will filter all those word that are only empty string ""
+            Line 9: It will reduce to add all the tuples' value by key
+            Line 10: It will calculate the IDF by given formula
+            Line 11: It will save the result to files
+        """
+        files = sc.wholeTextFiles(args.input)
+        files.cache()
+        corpusDocsSize = files.count()
+        files.flatMapValues(lambda s: s.split()) \
+            .mapValues(lambda raw: stripNonAlpha(toLowerCase(raw))) \
+            .distinct() \
+            .map(lambda word: (word[1], 1)) \
+            .filter(lambda (key, _): key != "") \
+            .reduceByKey(lambda x, y: x + y)\
+            .mapValues(lambda val: np.log(corpusDocsSize / (val * 1.))) \
+            .saveAsTextFile(args.output)
 
     if args.mode=='TFIDF':
         # Read  TF scores from file args.input the IDF scores from file args.idfvalues,
