@@ -32,9 +32,12 @@ if __name__ == "__main__":
         # lowercase, and have non alphabetic characters removed
         # (i.e., 'Ba,Na:Na.123' and 'banana' count as the same term). Empty strings, i.e., "" 
         # are also removed
-        pass
-
-
+        lines = sc.textFile(args.input)
+        lines.flatMap(lambda s: s.split(' '))\
+            .map(lambda word: (stripNonAlpha(toLowerCase(word)), 1)) \
+            .filter(lambda word: word[0] != '')\
+            .reduceByKey(lambda x, y: x + y)\
+            .saveAsTextFile(args.output)
 
 
 
