@@ -32,6 +32,7 @@ if __name__ == "__main__":
         # lowercase, and have non alphabetic characters removed
         # (i.e., 'Ba,Na:Na.123' and 'banana' count as the same term). Empty strings, i.e., "" 
         # are also removed
+        # Parameters: TF data/masc_500k_texts/written/fiction/hotel-california.txt hotel-california.tf --master local[8]
         """
             Line 1: SparkContext will call the textFile() to read a file from the local system
             Line 2: It will split the words by the blank space delimiter from all lines and flat them;
@@ -113,12 +114,25 @@ if __name__ == "__main__":
         # Read  TF scores from file args.input the IDF scores from file args.idfvalues,
         # compute TFIDF score, and store it in file args.output. Both input files contain
         # strings representing pairs of the form (TERM,VAL),
-        # where TERM is a lowercase letter-only string and VAL is a numeric value. 
-        pass
-
-
-
-
+        # where TERM is a lowercase letter-only string and VAL is a numeric value.
+        # Parameters: TFIDF hotel-california.tf hotel-california.tfidf --idfvalues anc.idf --master local[8]
+        """
+            Line 1: SparkContext will call the textFile() to read input file from the local system, and map the value to
+            original data structure.
+            Line 2: SparkContext will call the textFile() to read idfvalues file from the local system, and map the value to
+            original data structure.
+            Line 3: It will return an RDD containing all pairs of elements with matching keys in TF and IDF, it looks
+            like SQL join.
+            Line 4: It will calculate the tf-idf for each k-v pairs.
+            Line 5: It will sort the result in descending sequence.
+            Line 6: It will save the result to files.
+        """
+        TF = sc.textFile(args.input).map(eval)
+        IDF = sc.textFile(args.idfvalues).map(eval)
+        TF_IDF = TF.join(IDF)\
+            .mapValues(lambda (tf, idf): tf * idf)\
+            .sortBy(lambda (_, val): -val)\
+            .saveAsTextFile(args.output)
 
         
     if args.mode=='SIM':
