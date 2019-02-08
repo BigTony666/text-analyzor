@@ -2,10 +2,10 @@
 
 <h1 align="center"> 
   <strong>Text Analyzor</strong>
+  <img src="https://img.icons8.com/cotton/128/000000/document.png">
 </h1>
 
 <div align="center">
-  <img src="https://img.icons8.com/cotton/128/000000/document.png">
   A text analyzer that extracts useful features from documents in a corpus.
 </div>
 
@@ -27,7 +27,7 @@ Term Frequency measures how frequently a term occurs in a document. Since every 
 
 The term frequency (TF) of a word in a document **F** is defined as:
 
-<img src="../../static/charts/tf-idf_3.png">
+<img src="./static/charts/tf-idf_3.png">
 
 Term frequency of a word in a corpus of documents:
 
@@ -37,7 +37,7 @@ C = {F1,F2,...,Fk}
 
 is
 
-<img src="../../static/charts/tf-idf_2.png">
+<img src="./static/charts/tf-idf_2.png">
 
 ### IDF Inverse Document Frequency
 
@@ -45,7 +45,7 @@ Inverse Document Frequency measures how important a term is. While computing TF,
 
 Given a corpus of documents C = {F1 , F2 , . . . , Fk }, the inverse document frequency (IDF) of a word w is given by:
 
-<img src="../../static/charts/tf-idf_1.png">
+<img src="./static/charts/tf-idf_1.png">
 
 where |A| denotes the size of set A.
 
@@ -53,7 +53,7 @@ where |A| denotes the size of set A.
 
 Given a corpus C, the TFIDF score of a word w in a document F ∈ C is given by:
 
-<img src="../../static/charts/tf-idf_4.png">
+<img src="./static/charts/tf-idf_4.png">
 
 ## Cosine Similarity
 
@@ -61,7 +61,7 @@ Cosine similarity is a measure of similarity between two non-zero vectors of an 
 
 The cosine similarity between two documents F , F ′ in corpus C is defined as:
 
-<img src="../../static/charts/tf-idf_5.png">
+<img src="./static/charts/tf-idf_5.png">
 
 where F ∩ F ′ indicates the set words present in both files. Note that, by definition, cos(F, F ′) = cos(F ′, F ).
 
