@@ -2,16 +2,16 @@
 
 <h1 align="center"> 
   <strong>Text Analyzor</strong>
-  <img src="https://img.icons8.com/cotton/128/000000/document.png">
 </h1>
+
+<div align="center">
+  <img src="https://img.icons8.com/cotton/128/000000/document.png">
+</div>
 
 <div align="center">
   A text analyzer that extracts useful features from documents in a corpus.
 </div>
 
-<div align="center">
-  <a href="">Visit here</a>
-</div>
 
 ## Introduction
 
